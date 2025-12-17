@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado Final UCIII - Metabolismo</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; padding: 20px; max-width: 800px; margin: auto; }
+        h1 { text-align: center; color: #2c3e50; }
+        .question-card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .question-title { font-weight: bold; color: #34495e; margin-bottom: 15px; font-size: 1.1em; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn { padding: 12px; border: 2px solid #e0e0e0; border-radius: 5px; background: none; cursor: pointer; text-align: left; transition: all 0.3s; font-size: 1em; }
+        .option-btn:hover { background-color: #f0f8ff; border-color: #3498db; }
+        .feedback { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; }
+        .correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .btn-correct { background-color: #28a745 !important; color: white; border-color: #28a745 !important; }
+        .btn-wrong { background-color: #dc3545 !important; color: white; border-color: #dc3545 !important; }
+        .score-board { position: fixed; bottom: 20px; right: 20px; background: #2c3e50; color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
 
+    <h1>Simulado Final UCIII 🧬</h1>
+    <p style="text-align:center;">Baseado nas Provas Anteriores e Planos de Aula</p>
+
+    <div id="quiz-container"></div>
+
+    <div class="score-board">
+        Acertos: <span id="score">0</span> / 10
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "(Bioquímica) Durante exercício intenso, o piruvato vira lactato. Qual o objetivo químico disso?",
+                options: [
+                    "Gerar ATP diretamente",
+                    "Regenerar NAD+ para a glicólise continuar",
+                    "Produzir Acetil-CoA",
+                    "Diminuir o pH muscular"
+                ],
+                answer: 1,
+                explanation: "Correto! O objetivo da fermentação lática é regenerar o NAD+ que foi gasto na glicólise, permitindo que a produção de energia continue sem oxigênio."
+            },
+            {
+                q: "(Anatomia) Qual é a ação EXCLUSIVA do Músculo Pterigoideo Lateral em comparação aos outros da mastigação?",
+                options: [
+                    "Elevar a mandíbula (fechar)",
+                    "Retrair a mandíbula",
+                    "Deprimir (abrir) e Protrusão",
+                    "Comprimir a bochecha"
+                ],
+                answer: 2,
+                explanation: "Exato! O Pterigoideo Lateral é o único que ABRE a boca. Todos os outros (Masseter, Temporal, Medial) fecham."
+            },
+            {
+                q: "(Histologia) Quais células das Ilhotas de Langerhans secretam GLUCAGON e onde ficam?",
+                options: [
+                    "Células Beta (Centro)",
+                    "Células Delta (Dispersas)",
+                    "Células Alfa (Periferia)",
+                    "Células Acinares (Apical)"
+                ],
+                answer: 2,
+                explanation: "Perfeito! Células ALFA (periferia) = Glucagon. Células BETA (centro) = Insulina."
+            },
+            {
+                q: "(Embriologia) Na herniação fisiológica, o intestino médio sofre uma rotação total de:",
+                options: [
+                    "90º horário",
+                    "180º anti-horário",
+                    "270º anti-horário",
+                    "360º horário"
+                ],
+                answer: 2,
+                explanation: "Isso mesmo! A rotação total é de 270 graus no sentido anti-horário em torno da artéria mesentérica superior."
+            },
+            {
+                q: "(Clínica/SP) Na Fenilcetonúria (PKU), qual enzima falta e qual aminoácido vira essencial?",
+                options: [
+                    "Falta PAH / Tirosina vira essencial",
+                    "Falta BH4 / Triptofano vira essencial",
+                    "Falta G6Pase / Alanina vira essencial",
+                    "Falta Tirosinase / Fenilalanina vira essencial"
+                ],
+                answer: 0,
+                explanation: "Correto! Falta Fenilalanina Hidroxilase (PAH). O corpo não produz Tirosina, então ela precisa vir da dieta."
+            },
+            {
+                q: "(Bioquímica) Por que o fígado produz corpos cetônicos no jejum, mas não os consome?",
+                options: [
+                    "Não tem mitocôndria",
+                    "São tóxicos para ele",
+                    "Falta a enzima Tioforase",
+                    "Insulina inibe a queima"
+                ],
+                answer: 2,
+                explanation: "Exato! O fígado é altruísta: produz para os outros (cérebro), mas não usa porque não tem a enzima Tioforase."
+            },
+            {
+                q: "(Anatomia) Qual artéria percorre a Pequena Curvatura do estômago?",
+                options: [
+                    "Gastroepiploica Esquerda",
+                    "Esplênica",
+                    "Gástrica Esquerda",
+                    "Hepática Comum"
+                ],
+                answer: 2,
+                explanation: "Isso! A Gástrica Esquerda (do Tronco Celíaco) irriga a pequena curvatura."
+            },
+            {
+                q: "(Clínica/SP) Na Doença de Von Gierke (Glicogenose I), qual o defeito enzimático?",
+                options: [
+                    "Glicogênio Sintase",
+                    "Glicose-6-Fosfatase",
+                    "PFK-1",
+                    "Enzima Desramificadora"
+                ],
+                answer: 1,
+                explanation: "Correto! Sem a Glicose-6-Fosfatase, o fígado não consegue soltar a glicose no sangue, causando hipoglicemia severa."
+            },
+            {
+                q: "(Farmacologia) Qual o tratamento 'Padrão Ouro' para H. pylori?",
+                options: [
+                    "IBP + Claritromicina + Amoxicilina",
+                    "Anti-H2 + Metronidazol + Tetraciclina",
+                    "IBP + Azitromicina + Levofloxacino",
+                    "Antiácido + Amoxicilina + Sulfa"
+                ],
+                answer: 0,
+                explanation: "Perfeito! A terapia tripla clássica é IBP + Claritro + Amoxi."
+            },
+            {
+                q: "(Nutrição) A Vitamina B12 precisa de qual proteína gástrica para ser absorvida?",
+                options: [
+                    "Haptocorrina",
+                    "Transcobalamina",
+                    "Pepsinogênio",
+                    "Fator Intrínseco"
+                ],
+                answer: 3,
+                explanation: "Isso mesmo! O Fator Intrínseco é produzido pelas células parietais do estômago e é obrigatório para absorver a B12 no íleo."
+            }
+        ];
+
+        let score = 0;
+        const container = document.getElementById('quiz-container');
+        const scoreDisplay = document.getElementById('score');
+
+        questions.forEach((q, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            const title = document.createElement('div');
+            title.className = 'question-title';
+            title.textContent = `${index + 1}. ${q.q}`;
+            card.appendChild(title);
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => {
+                    // Disable all buttons in this card
+                    const allBtns = optionsDiv.querySelectorAll('button');
+                    allBtns.forEach(b => b.disabled = true);
+
+                    if (i === q.answer) {
+                        btn.classList.add('btn-correct');
+                        feedback.classList.add('correct');
+                        feedback.innerHTML = `<strong>✅ Certa Resposta!</strong><br>${q.explanation}`;
+                        score++;
+                        scoreDisplay.textContent = score;
+                    } else {
+                        btn.classList.add('btn-wrong');
+                        // Highlight the correct one
+                        allBtns[q.answer].classList.add('btn-correct');
+                        feedback.classList.add('incorrect');
+                        feedback.innerHTML = `<strong>❌ Incorreto!</strong><br>${q.explanation}`;
+                    }
+                    feedback.style.display = 'block';
+                };
+                optionsDiv.appendChild(btn);
+            });
+
+            card.appendChild(optionsDiv);
+            card.appendChild(feedback);
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
