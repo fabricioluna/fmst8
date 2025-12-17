@@ -3,198 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulado Final UCIII - Metabolismo</title>
+    <title>Portal de Estudos - Medicina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; padding: 20px; max-width: 800px; margin: auto; }
-        h1 { text-align: center; color: #2c3e50; }
-        .question-card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .question-title { font-weight: bold; color: #34495e; margin-bottom: 15px; font-size: 1.1em; }
-        .options { display: flex; flex-direction: column; gap: 10px; }
-        .option-btn { padding: 12px; border: 2px solid #e0e0e0; border-radius: 5px; background: none; cursor: pointer; text-align: left; transition: all 0.3s; font-size: 1em; }
-        .option-btn:hover { background-color: #f0f8ff; border-color: #3498db; }
-        .feedback { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; }
-        .correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .btn-correct { background-color: #28a745 !important; color: white; border-color: #28a745 !important; }
-        .btn-wrong { background-color: #dc3545 !important; color: white; border-color: #dc3545 !important; }
-        .score-board { position: fixed; bottom: 20px; right: 20px; background: #2c3e50; color: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        /* --- Reset Básico e Variáveis --- */
+        :root {
+            --primary-color: #003366; /* Azul Escuro Acadêmico */
+            --secondary-color: #0055a5; /* Azul Mais Claro */
+            --accent-color: #28a745; /* Verde para Simulados */
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f4f7f6;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- Header e Navegação --- */
+        header {
+            background-color: #fff;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo img {
+            max-height: 60px; /* Ajuste conforme sua logo */
+            width: auto;
+        }
+
+        /* --- Menu Dropdown Multinível --- */
+        nav ul {
+            list-style: none;
+            position: relative;
+        }
+
+        nav ul li {
+            display: inline-block;
+            position: relative;
+        }
+
+        nav a {
+            display: block;
+            padding: 0 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 80px; /* Centraliza verticalmente no header */
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        nav a i {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        /* Dropdown Nível 1 (Ex: 1º Período -> UCI, UCII...) */
+        nav ul ul {
+            display: none;
+            position: absolute;
+            top: 100%; /* Logo abaixo do item pai */
+            left: 0;
+            background: #fff;
+            box-shadow: var(--shadow);
+            min-width: 200px;
+            border-radius: 0 0 5px 5px;
+        }
+
+        nav ul ul li {
+            display: block;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+        nav ul ul li:last-child {
+            border-bottom: none;
+        }
+
+        nav ul ul a {
+            line-height: 50px; /* Altura menor para subitens */
+            padding: 0 20px;
+        }
+
+        nav ul ul a:hover {
+            background-color: #f9f9f9;
+            color: var(--secondary-color);
+        }
+
+        /* Dropdown Nível 2 (Ex: UCIII -> Simulado) */
+        nav ul ul ul {
+            top: 0;
+            left: 100%; /* Aparece ao lado */
+            border-radius: 0 5px 5px 5px;
+        }
+
+        /* Lógica de Hover (Mostrar o menu) */
+        nav ul li:hover > ul {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* --- Hero Section (Boas Vindas) --- */
+        .hero {
+            margin-top: 80px; /* Compensa o header fixo */
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-light);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Cards de Acesso Rápido --- */
+        .content-section {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        /* Animação suave */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
 
-    <h1>Simulado Final UCIII 🧬</h1>
-    <p style="text-align:center;">Baseado nas Provas Anteriores e Planos de Aula</p>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Logo da Faculdade"> 
+                </div>
 
-    <div id="quiz-container"></div>
+            <nav>
+                <ul>
+                    <li><a href="#">Início</a></li>
+                    
+                    <li>
+                        <a href="#">1º Período <i class="fas fa-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">UCI - Citologia</a></li>
+                            <li><a href="#">UCII - Genética</a></li>
+                            
+                            <li>
+                                <a href="#">UCIII - Metabolismo <i class="fas fa-chevron-right" style="float: right; line-height: 50px;"></i></a>
+                                <ul>
+                                    <li><a href="simulado.html" style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-play-circle"></i> Simulado Final</a></li>
+                                    <li><a href="#">Materiais de Aula</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
 
-    <div class="score-board">
-        Acertos: <span id="score">0</span> / 10
-    </div>
+                    <li>
+                        <a href="#">2º Período <i class="fas fa-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">UCIV</a></li>
+                            <li><a href="#">UCV</a></li>
+                        </ul>
+                    </li>
 
-    <script>
-        const questions = [
-            {
-                q: "(Bioquímica) Durante exercício intenso, o piruvato vira lactato. Qual o objetivo químico disso?",
-                options: [
-                    "Gerar ATP diretamente",
-                    "Regenerar NAD+ para a glicólise continuar",
-                    "Produzir Acetil-CoA",
-                    "Diminuir o pH muscular"
-                ],
-                answer: 1,
-                explanation: "Correto! O objetivo da fermentação lática é regenerar o NAD+ que foi gasto na glicólise, permitindo que a produção de energia continue sem oxigênio."
-            },
-            {
-                q: "(Anatomia) Qual é a ação EXCLUSIVA do Músculo Pterigoideo Lateral em comparação aos outros da mastigação?",
-                options: [
-                    "Elevar a mandíbula (fechar)",
-                    "Retrair a mandíbula",
-                    "Deprimir (abrir) e Protrusão",
-                    "Comprimir a bochecha"
-                ],
-                answer: 2,
-                explanation: "Exato! O Pterigoideo Lateral é o único que ABRE a boca. Todos os outros (Masseter, Temporal, Medial) fecham."
-            },
-            {
-                q: "(Histologia) Quais células das Ilhotas de Langerhans secretam GLUCAGON e onde ficam?",
-                options: [
-                    "Células Beta (Centro)",
-                    "Células Delta (Dispersas)",
-                    "Células Alfa (Periferia)",
-                    "Células Acinares (Apical)"
-                ],
-                answer: 2,
-                explanation: "Perfeito! Células ALFA (periferia) = Glucagon. Células BETA (centro) = Insulina."
-            },
-            {
-                q: "(Embriologia) Na herniação fisiológica, o intestino médio sofre uma rotação total de:",
-                options: [
-                    "90º horário",
-                    "180º anti-horário",
-                    "270º anti-horário",
-                    "360º horário"
-                ],
-                answer: 2,
-                explanation: "Isso mesmo! A rotação total é de 270 graus no sentido anti-horário em torno da artéria mesentérica superior."
-            },
-            {
-                q: "(Clínica/SP) Na Fenilcetonúria (PKU), qual enzima falta e qual aminoácido vira essencial?",
-                options: [
-                    "Falta PAH / Tirosina vira essencial",
-                    "Falta BH4 / Triptofano vira essencial",
-                    "Falta G6Pase / Alanina vira essencial",
-                    "Falta Tirosinase / Fenilalanina vira essencial"
-                ],
-                answer: 0,
-                explanation: "Correto! Falta Fenilalanina Hidroxilase (PAH). O corpo não produz Tirosina, então ela precisa vir da dieta."
-            },
-            {
-                q: "(Bioquímica) Por que o fígado produz corpos cetônicos no jejum, mas não os consome?",
-                options: [
-                    "Não tem mitocôndria",
-                    "São tóxicos para ele",
-                    "Falta a enzima Tioforase",
-                    "Insulina inibe a queima"
-                ],
-                answer: 2,
-                explanation: "Exato! O fígado é altruísta: produz para os outros (cérebro), mas não usa porque não tem a enzima Tioforase."
-            },
-            {
-                q: "(Anatomia) Qual artéria percorre a Pequena Curvatura do estômago?",
-                options: [
-                    "Gastroepiploica Esquerda",
-                    "Esplênica",
-                    "Gástrica Esquerda",
-                    "Hepática Comum"
-                ],
-                answer: 2,
-                explanation: "Isso! A Gástrica Esquerda (do Tronco Celíaco) irriga a pequena curvatura."
-            },
-            {
-                q: "(Clínica/SP) Na Doença de Von Gierke (Glicogenose I), qual o defeito enzimático?",
-                options: [
-                    "Glicogênio Sintase",
-                    "Glicose-6-Fosfatase",
-                    "PFK-1",
-                    "Enzima Desramificadora"
-                ],
-                answer: 1,
-                explanation: "Correto! Sem a Glicose-6-Fosfatase, o fígado não consegue soltar a glicose no sangue, causando hipoglicemia severa."
-            },
-            {
-                q: "(Farmacologia) Qual o tratamento 'Padrão Ouro' para H. pylori?",
-                options: [
-                    "IBP + Claritromicina + Amoxicilina",
-                    "Anti-H2 + Metronidazol + Tetraciclina",
-                    "IBP + Azitromicina + Levofloxacino",
-                    "Antiácido + Amoxicilina + Sulfa"
-                ],
-                answer: 0,
-                explanation: "Perfeito! A terapia tripla clássica é IBP + Claritro + Amoxi."
-            },
-            {
-                q: "(Nutrição) A Vitamina B12 precisa de qual proteína gástrica para ser absorvida?",
-                options: [
-                    "Haptocorrina",
-                    "Transcobalamina",
-                    "Pepsinogênio",
-                    "Fator Intrínseco"
-                ],
-                answer: 3,
-                explanation: "Isso mesmo! O Fator Intrínseco é produzido pelas células parietais do estômago e é obrigatório para absorver a B12 no íleo."
-            }
-        ];
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        let score = 0;
-        const container = document.getElementById('quiz-container');
-        const scoreDisplay = document.getElementById('score');
+    <section class="hero">
+        <h1>Central de Estudos</h1>
+        <p>Repositório de materiais, resumos e simulados focados na aprovação. Selecione o período no menu acima para começar.</p>
+    </section>
 
-        questions.forEach((q, index) => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            
-            const title = document.createElement('div');
-            title.className = 'question-title';
-            title.textContent = `${index + 1}. ${q.q}`;
-            card.appendChild(title);
+    <section class="content-section">
+        <h2 class="section-title">Acesso Rápido</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-dna"></i>
+                <h3>UCIII - Metabolismo</h3>
+                <p>Acesse o simulado completo e os resumos de Bioquímica e Anatomia.</p>
+                <a href="simulado.html" class="btn">Ir para Simulado</a>
+            </div>
+            <div class="card">
+                <i class="fas fa-book-medical"></i>
+                <h3>Tutorias (SPs)</h3>
+                <p>Resumos integrados dos objetivos de aprendizagem das sessões tutoriais.</p>
+                <a href="#" class="btn">Ver Resumos</a>
+            </div>
+            <div class="card">
+                <i class="fas fa-microscope"></i>
+                <h3>Laboratório</h3>
+                <p>Imagens e descrições de lâminas histológicas e peças anatômicas.</p>
+                <a href="#" class="btn">Acessar Atlas</a>
+            </div>
+        </div>
+    </section>
 
-            const optionsDiv = document.createElement('div');
-            optionsDiv.className = 'options';
+    <footer>
+        <p>&copy; 2025 - Portal de Estudos de Medicina. Todos os direitos reservados.</p>
+    </footer>
 
-            const feedback = document.createElement('div');
-            feedback.className = 'feedback';
-
-            q.options.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = opt;
-                btn.onclick = () => {
-                    // Disable all buttons in this card
-                    const allBtns = optionsDiv.querySelectorAll('button');
-                    allBtns.forEach(b => b.disabled = true);
-
-                    if (i === q.answer) {
-                        btn.classList.add('btn-correct');
-                        feedback.classList.add('correct');
-                        feedback.innerHTML = `<strong>✅ Certa Resposta!</strong><br>${q.explanation}`;
-                        score++;
-                        scoreDisplay.textContent = score;
-                    } else {
-                        btn.classList.add('btn-wrong');
-                        // Highlight the correct one
-                        allBtns[q.answer].classList.add('btn-correct');
-                        feedback.classList.add('incorrect');
-                        feedback.innerHTML = `<strong>❌ Incorreto!</strong><br>${q.explanation}`;
-                    }
-                    feedback.style.display = 'block';
-                };
-                optionsDiv.appendChild(btn);
-            });
-
-            card.appendChild(optionsDiv);
-            card.appendChild(feedback);
-            container.appendChild(card);
-        });
-    </script>
 </body>
 </html>
