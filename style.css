@@ -1,8 +1,8 @@
-/* --- Variáveis de Cores (Fácil de alterar) --- */
+/* --- Variáveis de Cores --- */
 :root {
     --primary-color: #003366; /* Azul Medicina */
     --secondary-color: #D4A017; /* Ocre Sertão */
-    --bg-color: #f4f7f6; /* Cinza muito claro/Gelo */
+    --bg-color: #f4f7f6; /* Cinza claro */
     --text-color: #333333;
     --white: #ffffff;
 }
@@ -54,11 +54,12 @@ header {
 }
 
 .logo {
-    height: 50px; /* Ajuste conforme necessário */
+    height: 60px; /* Aumentei levemente para destacar a logo nova */
     width: auto;
-    background-color: var(--white); /* Caso a logo seja transparente */
-    border-radius: 50%;
-    padding: 2px;
+    background-color: var(--white);
+    /* Se a logo for quadrada ou retangular e ficar cortada, apague a linha abaixo: */
+    border-radius: 50%; 
+    padding: 4px;
 }
 
 nav ul {
@@ -74,6 +75,7 @@ nav a:hover {
 
 /* --- Hero Section --- */
 .hero {
+    /* Imagem genérica de medicina. Depois você pode colocar uma foto sua na pasta img e mudar aqui */
     background: linear-gradient(rgba(0,51,102,0.8), rgba(0,51,102,0.8)), url('https://source.unsplash.com/1600x900/?medicine,doctor');
     background-size: cover;
     background-position: center;
