@@ -114,4 +114,254 @@
         /* Placar Flutuante */
         .score-board {
             position: fixed;
-            bottom: 2
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--accent);
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 100;
+        }
+
+        /* Animação suave */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .question-card { padding: 20px; }
+            .question-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header style="padding: 20px;">
+        <div class="logo-container">
+            <img src="img/logo.png" alt="Logo FMS" style="height: 50px; border-radius: 50%; background: white; padding: 2px;">
+        </div>
+        <h2 style="font-size: 1.5rem;">Simulado UC3</h2>
+        <p style="opacity: 0.8; font-size: 0.9rem;">Metabolismo e Bioenergética</p>
+    </header>
+
+    <div class="container">
+        <div class="nav-bar">
+            <a href="index.html" class="btn-back">⬅ Voltar para o Painel</a>
+        </div>
+
+        <div id="quiz-container"></div>
+    </div>
+
+    <div class="score-board">
+        Acertos: <span id="score-count">0</span>/10
+    </div>
+
+    <script>
+        // Banco de Questões (Mantive as que você enviou antes)
+        const questions = [
+            {
+                tag: "Bioquímica",
+                q: "Durante exercício intenso, o piruvato vira lactato. Qual o objetivo químico fundamental dessa reação?",
+                options: [
+                    "Gerar ATP diretamente na reação",
+                    "Regenerar NAD+ para a glicólise continuar",
+                    "Produzir Acetil-CoA para o Ciclo de Krebs",
+                    "Diminuir o pH muscular para vasodilatação"
+                ],
+                answer: 1,
+                explanation: "A fermentação lática serve unicamente para <strong>regenerar o NAD+</strong>. Sem NAD+, a glicólise para e a célula fica sem energia."
+            },
+            {
+                tag: "Anatomia",
+                q: "Qual é a ação EXCLUSIVA do Músculo Pterigoideo Lateral em comparação aos outros da mastigação?",
+                options: [
+                    "Elevar a mandíbula (fechar a boca)",
+                    "Retrair a mandíbula (para trás)",
+                    "Deprimir (abrir a boca) e Protrusão",
+                    "Comprimir a bochecha contra os dentes"
+                ],
+                answer: 2,
+                explanation: "O Pterigoideo Lateral é o único que <strong>ABRE</strong> a boca (depressão). Temporal, Masseter e Pterigoideo Medial fecham a boca."
+            },
+            {
+                tag: "Histologia",
+                q: "Nas Ilhotas de Langerhans, quais células secretam GLUCAGON e qual a sua localização típica?",
+                options: [
+                    "Células Beta (Centro da ilhota)",
+                    "Células Delta (Dispersas)",
+                    "Células Alfa (Periferia da ilhota)",
+                    "Células Acinares (Porção exócrina)"
+                ],
+                answer: 2,
+                explanation: "Células <strong>ALFA (Glucagon)</strong> ficam na periferia. Células BETA (Insulina) ficam no centro."
+            },
+            {
+                tag: "Embriologia",
+                q: "Na herniação fisiológica, o intestino médio sofre uma rotação total de quantos graus?",
+                options: [
+                    "90º no sentido horário",
+                    "180º no sentido anti-horário",
+                    "270º no sentido anti-horário",
+                    "360º no sentido horário"
+                ],
+                answer: 2,
+                explanation: "A rotação total é de <strong>270º anti-horário</strong> em torno da artéria mesentérica superior enquanto o intestino retorna ao abdome."
+            },
+            {
+                tag: "Clínica",
+                q: "Na Fenilcetonúria (PKU), qual aminoácido se torna ESSENCIAL na dieta do paciente?",
+                options: [
+                    "Tirosina",
+                    "Triptofano",
+                    "Alanina",
+                    "Fenilalanina"
+                ],
+                answer: 0,
+                explanation: "Normalmente o corpo produz Tirosina a partir da Fenilalanina. Como a enzima PAH falha na PKU, a <strong>Tirosina</strong> não é produzida e precisa vir da dieta."
+            },
+            {
+                tag: "Bioquímica",
+                q: "Por que o fígado produz corpos cetônicos no jejum, mas é incapaz de consumi-los?",
+                options: [
+                    "Porque ele não possui mitocôndrias",
+                    "Porque corpos cetônicos são tóxicos para hepatócitos",
+                    "Porque lhe falta a enzima Tioforase (SCOT)",
+                    "Porque a insulina inibe a queima no fígado"
+                ],
+                answer: 2,
+                explanation: "O fígado é um órgão altruísta: ele produz energia para o cérebro, mas não consome o que produziu porque não tem a enzima <strong>Tioforase</strong>."
+            },
+            {
+                tag: "Anatomia",
+                q: "Qual artéria percorre a Pequena Curvatura do estômago?",
+                options: [
+                    "Artéria Gastroepiploica Esquerda",
+                    "Artéria Esplênica",
+                    "Artéria Gástrica Esquerda",
+                    "Artéria Hepática Comum"
+                ],
+                answer: 2,
+                explanation: "A <strong>Gástrica Esquerda</strong> (ramo direto do Tronco Celíaco) irriga a pequena curvatura, anastomosando-se com a Gástrica Direita."
+            },
+            {
+                tag: "Patologia",
+                q: "Na Doença de Von Gierke (Glicogenose I), o defeito na Glicose-6-Fosfatase causa qual sintoma principal?",
+                options: [
+                    "Hiperglicemia severa",
+                    "Hipoglicemia severa em jejum",
+                    "Atrofia muscular",
+                    "Ausência de glicogênio hepático"
+                ],
+                answer: 1,
+                explanation: "Sem a enzima Glicose-6-Fosfatase, o fígado não consegue liberar glicose no sangue, causando <strong>hipoglicemia severa</strong> assim que o jejum começa."
+            },
+            {
+                tag: "Farmacologia",
+                q: "Qual o esquema tríplice clássico ('Padrão Ouro') para erradicação do H. pylori?",
+                options: [
+                    "IBP + Claritromicina + Amoxicilina",
+                    "Anti-H2 + Metronidazol + Tetraciclina",
+                    "IBP + Azitromicina + Levofloxacino",
+                    "Antiácido + Amoxicilina + Sulfa"
+                ],
+                answer: 0,
+                explanation: "A terapia clássica de primeira linha é: Inibidor de Bomba de Prótons (IBP) + Claritromicina + Amoxicilina."
+            },
+            {
+                tag: "Fisiologia",
+                q: "A Vitamina B12 precisa se ligar a qual fator para ser absorvida no íleo terminal?",
+                options: [
+                    "Haptocorrina",
+                    "Transcobalamina",
+                    "Pepsinogênio",
+                    "Fator Intrínseco"
+                ],
+                answer: 3,
+                explanation: "O <strong>Fator Intrínseco</strong>, produzido pelas células parietais do estômago, protege a B12 e permite sua absorção no final do intestino delgado."
+            }
+        ];
+
+        // Lógica para Gerar o Quiz
+        const container = document.getElementById('quiz-container');
+        const scoreSpan = document.getElementById('score-count');
+        let score = 0;
+
+        questions.forEach((item, index) => {
+            // Criar o Card
+            const card = document.createElement('div');
+            card.className = 'question-card';
+
+            // Cabeçalho da Questão
+            const header = document.createElement('div');
+            header.className = 'question-header';
+            header.innerHTML = `
+                <span class="q-number">${item.tag}</span>
+                <span style="color: #999; font-size: 0.9rem;">Questão ${index + 1}/10</span>
+            `;
+
+            // Enunciado
+            const text = document.createElement('p');
+            text.className = 'question-text';
+            text.textContent = item.q;
+
+            // Área de Opções
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options-grid';
+
+            // Área de Feedback (escondida inicialmente)
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback-box';
+
+            // Criar Botões
+            item.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+
+                // Evento de Clique
+                btn.onclick = function() {
+                    // 1. Desabilitar todos os botões deste card para não clicar 2x
+                    const allBtns = optionsDiv.querySelectorAll('button');
+                    allBtns.forEach(b => b.disabled = true);
+
+                    // 2. Verificar resposta
+                    if (i === item.answer) {
+                        // Acertou
+                        btn.classList.add('correct-answer');
+                        btn.innerHTML += ' ✅';
+                        score++;
+                        scoreSpan.textContent = score;
+                        feedbackDiv.innerHTML = `<strong style="color:var(--primary)">Muito bem!</strong> ${item.explanation}`;
+                    } else {
+                        // Errou
+                        btn.classList.add('wrong-answer');
+                        btn.innerHTML += ' ❌';
+                        // Mostrar qual era a certa
+                        allBtns[item.answer].classList.add('correct-answer');
+                        feedbackDiv.innerHTML = `<strong style="color:#dc3545">Atenção!</strong> ${item.explanation}`;
+                    }
+
+                    // 3. Mostrar feedback
+                    feedbackDiv.style.display = 'block';
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+
+            // Montar o card
+            card.appendChild(header);
+            card.appendChild(text);
+            card.appendChild(optionsDiv);
+            card.appendChild(feedbackDiv);
+            
+            // Adicionar à página
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
