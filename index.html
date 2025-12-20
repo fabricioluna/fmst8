@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicina do Sertão - Portal de Estudos</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <header>
+<header>
         <div class="container header-content">
             <div class="logo-area">
                 <img src="img/logo.png" alt="Logo Medicina do Sertão" class="logo"> 
@@ -17,7 +6,13 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="simulado.html">Simulados</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Simulados ▾</a>
+                        <div class="dropdown-content">
+                            <a href="simulado.html">UC3 - Metabolismo</a>
+                            </div>
+                    </li>
+                    
                     <li><a href="#resumos">Resumos</a></li>
                     <li><a href="#cronograma">Cronograma</a></li>
                     <li><a href="#contato">Contato</a></li>
@@ -25,46 +20,3 @@
             </nav>
         </div>
     </header>
-
-    <section class="hero">
-        <div class="container">
-            <h2>Rumo ao 2º Período</h2>
-            <p>Central de estudos, monitoria e materiais de apoio acadêmico.</p>
-            <a href="#resumos" class="btn">Acessar Materiais</a>
-        </div>
-    </section>
-
-    <section id="resumos" class="container">
-        <h3 class="section-title">Módulos de Estudo</h3>
-        <div class="grid-materias">
-            <div class="card">
-                <h4>Anatomia II</h4>
-                <p>Locomotor, Neuroanatomia e Esplancnologia.</p>
-                <a href="#">Ver Resumos</a>
-            </div>
-            <div class="card">
-                <h4>Fisiologia</h4>
-                <p>Homeostase, Potencial de Ação e Sistemas.</p>
-                <a href="#">Ver Resumos</a>
-            </div>
-            <div class="card">
-                <h4>Histologia</h4>
-                <p>Tecidos fundamentais e biologia celular.</p>
-                <a href="#">Ver Resumos</a>
-            </div>
-             <div class="card">
-                <h4>Simulados Gerais</h4>
-                <p>Questões de provas passadas e casos clínicos.</p>
-                <a href="simulado.html">Praticar Agora</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Medicina do Sertão. Foco, disciplina e humanidade.</p>
-        </div>
-    </footer>
-
-</body>
-</html>
