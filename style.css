@@ -1,46 +1,158 @@
-/* --- MENU DROPDOWN (Novo) --- */
-
-/* Container do botão principal */
-.dropdown {
-    position: relative;
-    display: inline-block;
+/* --- Cores da FMS e Identidade Visual --- */
+:root {
+    --primary: #003366;    /* Azul FMS */
+    --accent: #D4A017;     /* Ocre/Dourado */
+    --bg: #f0f2f5;         /* Cinza muito claro para o fundo */
+    --card-bg: #ffffff;
+    --text: #333333;
 }
 
-/* Estilo do conteúdo escondido (a caixinha que desce) */
-.dropdown-content {
-    display: none; /* Começa escondido */
-    position: absolute;
-    background-color: var(--white);
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-top: 3px solid var(--secondary-color); /* Detalhe Ocre no topo */
-    border-radius: 0 0 5px 5px;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    padding-bottom: 50px;
 }
 
-/* Links dentro do menu dropdown */
-.dropdown-content a {
-    color: var(--text-color);
-    padding: 12px 16px;
+/* --- Cabeçalho --- */
+header {
+    background-color: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 5px solid var(--accent);
+}
+
+.logo {
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.badge {
+    background-color: var(--accent);
+    color: var(--primary);
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.subtitle {
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* --- Layout Principal --- */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    color: var(--primary);
+    border-left: 5px solid var(--accent);
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+/* --- Grid de Cards --- */
+.grid-simulados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* --- O Card do Simulado --- */
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.active-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-color: var(--accent);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.meta {
+    font-size: 0.8rem !important;
+    font-weight: bold;
+    color: #888 !important;
+    margin-bottom: 20px !important;
+}
+
+/* --- Botão de Ação --- */
+.btn-start {
+    display: block;
+    background-color: var(--primary);
+    color: white;
     text-decoration: none;
-    display: block;
-    font-size: 0.95rem;
-    border-bottom: 1px solid #eee;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-/* Cor ao passar o mouse nos itens do menu */
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-    color: var(--primary-color);
-    padding-left: 20px; /* Efeitozinho de movimento */
+.btn-start:hover {
+    background-color: var(--accent);
+    color: var(--primary);
 }
 
-/* O Segredo: Mostrar o menu quando passa o mouse no pai (.dropdown) */
-.dropdown:hover .dropdown-content {
-    display: block;
+.btn-start.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
-/* Ajuste para a setinha ou texto do botão principal mudar de cor também */
-.dropdown:hover .dropbtn {
-    color: var(--secondary-color);
+/* --- Área "Em Breve" (Locked) --- */
+.coming-soon {
+    opacity: 0.7;
+}
+
+.locked {
+    background-color: #f9f9f9;
+    color: #aaa;
+    border: 1px dashed #ccc;
+}
+.locked h3 { color: #888; }
+
+/* --- Rodapé --- */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.8rem;
+    color: #999;
 }
