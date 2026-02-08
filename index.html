@@ -1,62 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulados do Fafá - FMS</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Medicina do Sertão - Suporte Acadêmico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f7f6;
+        color: #333333;
+      }
+      .transition-all {
+        transition: all 0.3s ease;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
-
-    <header>
-        <div class="logo-container">
-            <img src="img/logo.png" alt="Logo Medicina do Sertão" class="logo">
-        </div>
-        <h1>Simulados do Fafá <span class="badge">FMS</span></h1>
-        <p class="subtitle">Prática Deliberada para Medicina</p>
-    </header>
-
-    <main class="container">
-        
-        <h2 class="section-title">⚡ Disponíveis Agora</h2>
-        <div class="grid-simulados">
-            
-            <div class="card active-card">
-                <div class="card-icon">🧬</div>
-                <h3>UC3 - Metabolismo</h3>
-                <p>Glicólise, Krebs e Bioenergética.</p>
-                <p class="meta">10 Questões • Nível Médio/Difícil</p>
-                <a href="simulado.html" class="btn-start">Começar Simulado</a>
-            </div>
-
-            <div class="card active-card">
-                <div class="card-icon">💀</div>
-                <h3>Anatomia Locomotor</h3>
-                <p>Ossos, Músculos e Articulações.</p>
-                <p class="meta">Em Breve</p>
-                <a href="#" class="btn-start disabled">Em construção</a>
-            </div>
-
-        </div>
-
-        <h2 class="section-title" style="margin-top: 40px; opacity: 0.6;">🔒 Próximos Lançamentos</h2>
-        <div class="grid-simulados coming-soon">
-            <div class="card locked">
-                <h3>Neuroanatomia</h3>
-                <p>Vias e estruturas.</p>
-            </div>
-            <div class="card locked">
-                <h3>Histologia II</h3>
-                <p>Sistemas.</p>
-            </div>
-        </div>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Simulados do Fafá. Foco na aprovação.</p>
-    </footer>
-
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
